@@ -21,3 +21,4 @@ social-auth-core==4.1.0
 flask==2.0.2
 google-auth-oauthlib==0.4.6
 google-apis-oauth-django==1.0.0
+django-heroku==0.0.0
