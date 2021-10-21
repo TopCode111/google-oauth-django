@@ -1,0 +1,45 @@
+
+    <nav class="pcoded-navbar menu-light icon-colored">
+        <div class="navbar-wrapper">
+            <div class="navbar-brand header-logo">
+                <a target="_blank" class="b-brand">
+                    <div>
+                        <img class="rounded-circle" style="width:40px" src="/static/assets/images/user/{{ request.user.last_name }}.jpg">
+                    </div>
+                    <span class="b-title">{{ request.user.first_name }} {{ request.user.last_name }}</span>
+                </a>
+                <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
+            </div>
+            <div class="navbar-content scroll-div">
+                <ul class="nav pcoded-inner-navbar">
+
+                    <li data-username="dashboard Personal"
+                        class="nav-item {% if 'tasks' in segment %} active {% endif %}">
+                        <a href="{% url 'tasks' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">TASKS</span></a>
+                    </li>
+                    <li data-username="dashboard Personal"
+                        class="nav-item {% if 'calendar' in segment %} active {% endif %}">
+                        <a href="{% url 'calendar' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-calendar"></i></span><span class="pcoded-mtext">SCHEDULE</span></a>
+                    </li>
+                    <li data-username="dashboard Personal"
+                        class="nav-item {% if 'news' in segment %} active {% endif %}">
+                        <a href="{% url 'news' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-bell"></i></span><span class="pcoded-mtext">NEWS/SNS</span></a>
+                    </li>
+                    <li data-username="dashboard Personal"
+                        class="nav-item {% if 'index' in segment %} active {% endif %}">
+                        <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">NOTES</span></a>
+                    </li>
+                    <li data-username="dashboard Personal"
+                        class="nav-item {% if 'team_collaboration' in segment %} active {% endif %}">
+                        <a href="{% url 'team_collaboration' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">TEAM COLLABORATION</span></a>
+                    </li>
+                    <li data-username="Disabled Menu" class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link">
+                            <span class="pcoded-micon"><i class="feather icon-power"></i></span><span class="pcoded-mtext">LOGOUT</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>

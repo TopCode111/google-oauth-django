@@ -1,0 +1,98 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} カレンダーの予定 {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <!-- notification css -->
+    <link rel="stylesheet" href="/static/assets/plugins/notification/css/notification.min.css">
+
+    <!-- modal-window-effects css -->
+    <link rel="stylesheet" href="/static/assets/plugins/modal-window-effects/css/md-modal.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-main-container">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <div class="main-body">
+                    <div class="page-wrapper">
+                        <!--[全体的なリマインド・お知らせ] start-->
+
+
+                        <div class="row">
+                        <!--[カレンダー予定] start-->
+                            <div class="col-xl-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5><b>次1週間のスケジュール</b></h5>
+                                    </div>
+                                <div class="card-block table-border-style">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>日時</th>
+                                                <th>内容・場所・参加者</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for item in events_list %}
+                                            <tr>
+                                                <td>
+                                                    <h6 class="d-inline-block">{{ events_list.1 }}</h6>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+    <!-- amchart js -->
+    <script src="/static/assets/plugins/amchart/js/amcharts.js"></script>
+    <script src="/static/assets/plugins/amchart/js/gauge.js"></script>
+    <script src="/static/assets/plugins/amchart/js/serial.js"></script>
+    <script src="/static/assets/plugins/amchart/js/light.js"></script>
+    <script src="/static/assets/plugins/amchart/js/pie.min.js"></script>
+    <script src="/static/assets/plugins/amchart/js/ammap.min.js"></script>
+    <script src="/static/assets/plugins/amchart/js/usaLow.js"></script>
+    <script src="/static/assets/plugins/amchart/js/radar.js"></script>
+    <script src="/static/assets/plugins/amchart/js/worldLow.js"></script>
+
+    <!-- notification Js -->
+    <script src="/static/assets/plugins/notification/js/bootstrap-growl.min.js"></script>
+
+    <!-- dashboard-custom js -->
+    <script src="/static/assets/js/pages/dashboard-custom.js"></script>
+
+    <!-- modal-window-effects Js -->
+    <script src="/static/assets/plugins/modal-window-effects/js/classie.js"></script>
+    <script src="/static/assets/plugins/modal-window-effects/js/modalEffects.js"></script>
+
+    <script src="/static/assets/plugins/autosize/js/autosize.min.js"></script>
+    <script src="/static/assets/plugins/store-js/js/store.min.js"></script>
+    <script src="/static/assets/plugins/moment/js/moment.js"></script>
+    <script src="/static/assets/plugins/store-js/js/note.js"></script>
+
+
+{% endblock javascripts %}
