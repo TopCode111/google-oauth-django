@@ -85,17 +85,24 @@
         $(document).ready(() => {
             isInit = true;            
             gapi.load('auth2', function() {
-                // if (firstTime == null)
-                firstTime = gapi.auth2.getAuthInstance().isSignedIn.Vd != true; // User is initially logged in
+                gapi.auth2.getAuthInstance().then(authResult => {
+                    if (firstTime == null)
+                        firstTime = authResult.isSignedIn.get(); // User is initially logged in
 
-                console.log(firstTime);
+                    if (firstTime == null) {
+                        firstTime = false;
+                    }
+                });
+                
+
+                // console.log(firstTime);
             });
         });
         var isManual = false;
         
         function onSignIn(googleUser) {
             if (isInit) {
-                if (!firstTime) {              
+                if (firstTime != null && !firstTime) {              
                     var profile = googleUser.getBasicProfile();
                     let googleUserProfile = {
                         username: profile.getName(),
@@ -131,7 +138,6 @@
                     });
                 } else {
                     firstTime = false;
-                    console.log("WTF");
                     logoutUser();
                 }
             }
