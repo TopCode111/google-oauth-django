@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">ログインする</button>
-                        <div class="g-signin2" data-height="45" data-onsuccess="(googleUser) => { console.log(googleUser.getBasicProfile().getName()) }" data-longtitle="true" data-theme="dark"></div>
+                        <div class="g-signin2" data-height="45" data-onsuccess="onSignIn" data-longtitle="true" data-theme="dark"></div>
                     </form>
 
 {#                    <p class="mb-0 text-muted">アカウントをお持ちでないですか？<a href="{% url 'register' %}" >新規登録する</a></p>#}

@@ -17,21 +17,27 @@ def login_view(request):
     msg = None
 
     if request.method == "POST":
+        if "type" in request.POST and request.POST['type'] == 'google_auth':
+            username = request.POST['username']
+            email = request.POST['email']
 
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                if os.getcwd() != '/Users/elisaaoki/biz_dashboard':
-                    return redirect("/google_oauth/redirect/")
-                else:
-                    return redirect("/")
-            else:
-                msg = 'Invalid credentials'
+            registerForm = SignUpForm([ username, email, "abc123", "abc123" ])
+
         else:
-            msg = 'Error validating the form'
+            if form.is_valid():
+                username = form.cleaned_data.get("username")
+                password = form.cleaned_data.get("password")
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    if os.getcwd() != '/Users/elisaaoki/biz_dashboard':
+                        return redirect("/google_oauth/redirect/")
+                    else:
+                        return redirect("/")
+                else:
+                    msg = 'Invalid credentials'
+            else:
+                msg = 'Error validating the form'
 
     return render(request, "accounts/login.html", {"form": form, "msg": msg})
 
@@ -40,22 +46,22 @@ def register_user(request):
     msg = None
     success = False
 
-    # if request.method == "POST":
-    #     form = SignUpForm(request.POST)
-    #     if form.is_valid():
-    #         form.save()
-    #         username = form.cleaned_data.get("username")
-    #         raw_password = form.cleaned_data.get("password1")
-    #         user = authenticate(username=username, password=raw_password)
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get("username")
+            raw_password = form.cleaned_data.get("password1")
+            user = authenticate(username=username, password=raw_password)
 
-    #         msg = 'User created - please <a href="/login">login</a>.'
-    #         success = True
+            msg = 'User created - please <a href="/login">login</a>.'
+            success = True
 
-    #         # return redirect("/login/")
+            # return redirect("/login/")
 
-    #     else:
-    #         msg = 'Form is not valid'
-    # else:
-    form = SignUpForm(request.POST or None)
+        else:
+            msg = 'Form is not valid'
+    else:
+        form = SignUpForm()
 
     return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
