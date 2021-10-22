@@ -79,42 +79,62 @@
         </div>
     </div>
 
-    <script>        
-        var isManual = false;
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            let googleUserProfile = {
-                username: profile.getName(),
-                email: profile.getEmail(),
-                id_token: googleUser.getAuthResponse()['id_token']
-            };
+    <script>
+        var isInit = false;
+        var firstTime = null;
+        $(document).ready(() => {
+            isInit = true;            
+            gapi.load('auth2', function() {
+                // if (firstTime == null)
+                firstTime = gapi.auth2.getAuthInstance().isSignedIn.Vd != true; // User is initially logged in
 
-            $.ajax({
-                url: "{% url 'login' %}",
-                method: "POST",
-                data: {
-                    type: isManual ? "authManual" : "authAuto",
-                    username: document.getElementById("id_username").value,
-                    password: document.getElementById("id_password").value,
-                    google: JSON.stringify(googleUserProfile),
-                    csrfmiddlewaretoken: "{{ csrf_token }}"
-                },
-                success: response => {
-                    isManual = false;
-                    if (response.result == "success") {
-                        console.log("USER LOGGED IN!");
-                        window.location.href = "{% url 'home' %}";
-                    } else {
-                        logoutGoogle();
-                        document.getElementById("errorMessage").innerText = response.error_msg;
-                    }
-                },
-                error: (j, t, e) => {
-                    isManual = false;
-                    logoutGoogle();
-                    document.getElementById("errorMessage").innerText = "Some Error Occurred!";
-                }
+                console.log(firstTime);
             });
+        });
+        var isManual = false;
+        
+        function onSignIn(googleUser) {
+            if (isInit) {
+                if (!firstTime) {              
+                    var profile = googleUser.getBasicProfile();
+                    let googleUserProfile = {
+                        username: profile.getName(),
+                        email: profile.getEmail(),
+                        id_token: googleUser.getAuthResponse()['id_token']
+                    };
+    
+                    $.ajax({
+                        url: "{% url 'login' %}",
+                        method: "POST",
+                        data: {
+                            type: isManual ? "authManual" : "authAuto",
+                            username: document.getElementById("id_username").value,
+                            password: document.getElementById("id_password").value,
+                            google: JSON.stringify(googleUserProfile),
+                            csrfmiddlewaretoken: "{{ csrf_token }}"
+                        },
+                        success: response => {
+                            isManual = false;
+                            if (response.result == "success") {
+                                console.log("USER LOGGED IN!");
+                                window.location.href = "{% url 'home' %}";
+                            } else {
+                                logoutUser();
+                                document.getElementById("errorMessage").innerText = response.error_msg;
+                            }
+                        },
+                        error: (j, t, e) => {
+                            isManual = false;
+                            logoutUser();
+                            document.getElementById("errorMessage").innerText = "Some Error Occurred!";
+                        }
+                    });
+                } else {
+                    firstTime = false;
+                    console.log("WTF");
+                    logoutUser();
+                }
+            }
         }
 
         function onLoginFormSubmit() {
@@ -141,11 +161,6 @@
                     document.querySelector(".g-signin2 > div").click();
                 }
             });
-        }
-
-        function logoutGoogle() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut();
         }
     </script>
 
