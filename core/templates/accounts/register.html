@@ -1,79 +1,84 @@
-{# Disabled#}
-{#{% extends "layouts/base-fullscreen.html" %}#}
-{##}
-{#{% block title %} ユーザー登録 {% endblock %}#}
-{##}
-{#{% block content %}   #}
-{##}
-{#    <div class="auth-wrapper">#}
-{#        <div class="auth-content">#}
-{#            <div class="auth-bg">#}
-{#                <span class="r"></span>#}
-{#                <span class="r s"></span>#}
-{#                <span class="r s"></span>#}
-{#                <span class="r"></span>#}
-{#            </div>#}
-{#            <div class="card">#}
-{#                <div class="card-body text-center">#}
-{#                    <div class="mb-4">#}
-{#                        <i class="feather icon-user-plus auth-icon"></i>#}
-{#                    </div>#}
-{#                    <h3 class="mb-4">アカウント登録</h3>#}
-{##}
-{#                    <span class="mb-0 text-muted">#}
-{#                        {% if msg %}#}
-{#                            {{ msg | safe }}#}
-{#                        {% else %}#}
-{#                            情報を入力してください#}
-{#                        {% endif %} #}
-{#                    </span>#}
-{##}
-{#                    <br />#}
-{#                    <br />#}
-{##}
-{#                    <form role="form" method="post" action="">#}
-{##}
-{#                        {% csrf_token %}                    #}
-{##}
-{#                        <div class="input-group mb-3">#}
-{#                            {{ form.username }}#}
-{#                        </div>#}
-{#                        <span class="text-error">{{ form.username.errors }}</span>#}
-{##}
-{#                        <div class="input-group mb-3">#}
-{#                            {{ form.email }}#}
-{#                        </div>#}
-{#                        <span class="text-error">{{ form.email.errors }}</span>#}
-{##}
-{#                        <div class="input-group mb-4">#}
-{#                            {{ form.password1 }}#}
-{#                        </div>#}
-{#                        <span class="text-error">{{ form.password1.errors }}</span>#}
-{##}
-{#                        <div class="input-group mb-4">#}
-{#                            {{ form.password2 }}#}
-{#                        </div>#}
-{#                        <span class="text-error">{{ form.password2.errors }}</span>#}
-{#                        #}
-{#                        <div class="form-group text-left">#}
-{#                            <div class="checkbox checkbox-fill d-inline">#}
-{#                                <input type="checkbox" name="checkbox-fill-1" id="checkbox-fill-a1" checked="">#}
-{#                                <label for="checkbox-fill-a1" class="cr">規約内容に合意する</label>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                        <button type="submit" name="register" class="btn btn-primary shadow-2 mb-4">登録する</button>#}
-{##}
-{#                    </form>#}
-{##}
-{#                    <p class="mb-0 text-muted">既にアカウントをお持ちですか？<a href="{% url 'login' %}" >ログインする</a></p>#}
-{#                    <br />#}
-{#                    <p class="mb-2 text-muted">#}
-{#                        &copy; <a target="_blank" href="https://bit.ly/37fF9RT">CodedThemes</a> #}
-{#                        - <a target="_blank" href="https://appseed.us/admin-dashboards/django-datta-able">Django Datta Able</a>#}
-{#                    </p>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{#{% endblock content %}#}
+{% comment %} {% extends "layouts/base-fullscreen.html" %} 
+{% block title %} ユーザー登録 {% endblock %} 
+{% block content %}
+    <div class="auth-wrapper">
+        <div class="auth-content">
+            <div class="auth-bg">
+            <span class="r"></span>
+            <span class="r s"></span>
+            <span class="r s"></span>
+            <span class="r"></span>
+            </div>
+            <div class="card">
+            <div class="card-body text-center">
+                <div class="mb-4">
+                <i class="feather icon-user-plus auth-icon"></i>
+                </div>
+                <h3 class="mb-4">アカウント登録</h3>
+
+                <span class="mb-0 text-muted">
+                {% if msg %} {{ msg | safe }} {% else %} 情報を入力してください {% endif %}
+                </span>
+
+                <br />
+                <br />
+
+                <form role="form" method="post" action="">
+                {% csrf_token %}
+
+                <div class="input-group mb-3">{{ form.username }}</div>
+                <span class="text-error">{{ form.username.errors }}</span>
+
+                <div class="input-group mb-3">{{ form.email }}</div>
+                <span class="text-error">{{ form.email.errors }}</span>
+
+                <div class="input-group mb-4">{{ form.password1 }}</div>
+                <span class="text-error">{{ form.password1.errors }}</span>
+
+                <div class="input-group mb-4">{{ form.password2 }}</div>
+                <span class="text-error">{{ form.password2.errors }}</span>
+
+                <div class="form-group text-left">
+                    <div class="checkbox checkbox-fill d-inline">
+                    <input
+                        type="checkbox"
+                        name="checkbox-fill-1"
+                        id="checkbox-fill-a1"
+                        checked=""
+                    />
+                    <label for="checkbox-fill-a1" class="cr"
+                        >規約内容に合意する</label
+                    >
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    name="register"
+                    class="btn btn-primary shadow-2 mb-4"
+                >
+                    登録する
+                </button>
+                </form>
+
+                <p class="mb-0 text-muted">
+                既にアカウントをお持ちですか？<a href="{% url 'login' %}"
+                    >ログインする</a
+                >
+                </p>
+                <br />
+                {% comment %} <p class="mb-2 text-muted">
+                &copy;
+                <a target="_blank" href="https://bit.ly/37fF9RT">CodedThemes</a> -
+                <a
+                    target="_blank"
+                    href="https://appseed.us/admin-dashboards/django-datta-able"
+                    >Django Datta Able</a
+                >
+                </p> {% endcomment %}
+            </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %} 
+{% endcomment %}

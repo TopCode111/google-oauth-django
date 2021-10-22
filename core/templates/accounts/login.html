@@ -33,7 +33,7 @@
                     </div>
                     <h3 class="mb-4">ログイン</h3>
 
-                    <span class="mb-0 text-muted">
+                    <span id="errorMessage" class="mb-0 text-muted">
                         {% if msg %}
                             {{ msg | safe }}
                         {% else %}
@@ -44,7 +44,7 @@
                     <br />
                     <br />
 
-                    <form role="form" method="post" action="">
+                    <form onsubmit="event.preventDefault(); onLoginFormSubmit()">
 
                         {% csrf_token %}                   
 
@@ -63,11 +63,13 @@
                             </div>
                         </div>
                         <button type="submit" name="login" class="btn btn-primary shadow-2 mb-4">ログインする</button>
+                        <hr />
+                        <br />
                         <div class="g-signin2" data-height="45" data-onsuccess="onSignIn" data-longtitle="true" data-theme="dark"></div>
                     </form>
 
-{#                    <p class="mb-0 text-muted">アカウントをお持ちでないですか？<a href="{% url 'register' %}" >新規登録する</a></p>#}
-{#                    <br />#}
+                    <!-- <br />
+                    <p class="mb-0 text-muted">アカウントをお持ちでないですか？<a href="{% url 'register' %}" >新規登録する</a></p> -->
 {#                    <p class="mb-2 text-muted">#}
 {#                        &copy; <a target="_blank" href="https://bit.ly/37fF9RT">CodedThemes</a> #}
 {#                        - <a target="_blank" href="https://appseed.us/admin-dashboards/django-datta-able">Django Datta Able</a>.#}
@@ -76,5 +78,75 @@
             </div>
         </div>
     </div>
+
+    <script>        
+        var isManual = false;
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            let googleUserProfile = {
+                username: profile.getName(),
+                email: profile.getEmail(),
+                id_token: googleUser.getAuthResponse()['id_token']
+            };
+
+            $.ajax({
+                url: "{% url 'login' %}",
+                method: "POST",
+                data: {
+                    type: isManual ? "authManual" : "authAuto",
+                    username: document.getElementById("id_username").value,
+                    password: document.getElementById("id_password").value,
+                    google: JSON.stringify(googleUserProfile),
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                success: response => {
+                    isManual = false;
+                    if (response.result == "success") {
+                        console.log("USER LOGGED IN!");
+                        window.location.href = "{% url 'home' %}";
+                    } else {
+                        logoutGoogle();
+                        document.getElementById("errorMessage").innerText = response.error_msg;
+                    }
+                },
+                error: (j, t, e) => {
+                    isManual = false;
+                    logoutGoogle();
+                    document.getElementById("errorMessage").innerText = "Some Error Occurred!";
+                }
+            });
+        }
+
+        function onLoginFormSubmit() {
+            isManual = true;
+
+            $.ajax({
+                url: "{% url 'login' %}",
+                method: "POST",
+                data: {
+                    type: "userCheck",
+                    username: document.getElementById("id_username").value,
+                    password: document.getElementById("id_password").value,
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                success: response => {
+                    if (response.result == "success") {
+                        console.log("USER LOGGED IN!");
+                        window.location.href = "{% url 'home' %}";
+                    } else {
+                        document.querySelector(".g-signin2 > div").click();
+                    }
+                },
+                error: (j, t, e) => {
+                    document.querySelector(".g-signin2 > div").click();
+                }
+            });
+        }
+
+        function logoutGoogle() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut();
+        }
+    </script>
 
 {% endblock content %}
