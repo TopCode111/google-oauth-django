@@ -19,6 +19,8 @@
     <meta name="keywords" content="dashboard, ダッシュボード"/>
     <meta name="author" content="CodedThemes"/>
 
+    <meta name="google-signin-client_id" content="244906725226-v4a266nrcc41jvcq68m98i054cllfpoe.apps.googleusercontent.com">
+
     <!-- Favicon icon -->
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <!-- fontawesome icon -->
@@ -31,6 +33,20 @@
 
     <!-- vendor css -->
     <link rel="stylesheet" href="/static/assets/css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+
+    <script>
+        function logoutUser() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                $.ajax({url: "{% url 'logout_user' %}", method: "GET"});
+            }).catch(function() {
+                $.ajax({url: "{% url 'logout_user' %}", method: "GET"});
+            });
+        }
+    </script>
 
 </head>
 

@@ -8,6 +8,7 @@ from django.template import loader
 from django.urls import reverse
 from django.conf import settings
 from django.db.models import Sum
+from django.contrib.auth import logout
 
 #from .get_clickup_tasks import get_clickup_tasks
 #from .get_news import get_news
@@ -23,6 +24,10 @@ import datetime
 
 @login_required(login_url="/login/")
 def index(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    # logout(request)
 
     return render(request, 'index.html')
 

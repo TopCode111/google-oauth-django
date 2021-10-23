@@ -10,10 +10,9 @@
                 </a>
                 <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             </div>
-            <div class="navbar-content scroll-div">
+            <div class="navbar-content ">
                 <ul class="nav pcoded-inner-navbar">
-
-                    <li data-username="dashboard Personal"
+                    {% comment %} <li data-username="dashboard Personal"
                         class="nav-item {% if 'tasks' in segment %} active {% endif %}">
                         <a href="{% url 'tasks' %}" class="nav-link "><span class="pcoded-micon"><i class="feather icon-file-text"></i></span><span class="pcoded-mtext">TASKS</span></a>
                     </li>
@@ -37,9 +36,10 @@
                         <a href="{% url 'logout' %}" class="nav-link">
                             <span class="pcoded-micon"><i class="feather icon-power"></i></span><span class="pcoded-mtext">LOGOUT</span>
                         </a>
-                    </li>
+                    </li> {% endcomment %}
 
                 </ul>
+                <button class="btn btn-primary mt-5" onclick="logoutUser()">Logout</button>
             </div>
         </div>
     </nav>

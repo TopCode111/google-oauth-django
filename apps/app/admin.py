@@ -29,8 +29,8 @@ class UserAuthResource(resources.ModelResource):
 class UserAuthAdmin(ImportExportModelAdmin):
     # ImportExportModelAdminを利用するようにする
     ordering = ['id']
-    list_display = ('id', 'username', 'firstname_jp', 'lastname_jp', 'google_oauth_token')
-    list_editable = ('username', 'firstname_jp', 'lastname_jp', 'google_oauth_token')
+    list_display = ('id', 'user', 'google_id_token', 'manual_user')
+    list_editable = ('user', 'google_id_token', 'manual_user')
 
 # class DecisionResource(resources.ModelResource):
 #     # Modelに対するdjango-import-exportの設定
