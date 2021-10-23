@@ -110,15 +110,19 @@
                         id_token: googleUser.getAuthResponse()['id_token']
                     };
     
+                    const CSRF_TOKEN = "{{ csrf_token }}";
                     $.ajax({
                         url: "{% url 'login' %}",
                         method: "POST",
+                        headers: {
+                            'X-CSRFToken': CSRF_TOKEN
+                        },
                         data: {
                             type: isManual ? "authManual" : "authAuto",
                             username: document.getElementById("id_username").value,
                             password: document.getElementById("id_password").value,
                             google: JSON.stringify(googleUserProfile),
-                            csrfmiddlewaretoken: "{{ csrf_token }}"
+                            csrfmiddlewaretoken: CSRF_TOKEN
                         },
                         success: response => {
                             isManual = false;
