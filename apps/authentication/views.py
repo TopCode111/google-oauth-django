@@ -64,6 +64,9 @@ def login_view(request):
                                 userAuth.user = user
                                 userAuth.save()
 
+                                userLogin = authenticate(username=username, password=password)
+                                if userLogin is not None:
+                                    login(request, userLogin)
                             else:
                                 errors = registrationForm.errors.as_json()
                                 errors_userAuth = userAuthRegistrationForm.errors.as_json()
@@ -108,8 +111,13 @@ def login_view(request):
                             userAuth = userAuthRegistrationForm.save(commit=False)
                             userAuth.user = user
                             userAuth.save()
+
+                            userLogin = authenticate(username=google['email'], password="google_auth")
+                            if userLogin is not None:
+                                login(request, userLogin)
                         else:
                             errors = userAuthRegistrationForm.errors.as_json()
+                            print("YAYYYYY")
 
                             if "google_id_token" in errors:
                                 return JsonResponse({"result": "failure", "error_msg": "Invalid Credentials!"})
@@ -119,6 +127,7 @@ def login_view(request):
                         userByNameAndEmail = User.objects.filter(username=google['email'], email=google['email'])
 
                         if len(userByNameAndEmail) > 0:
+                            print("YAYYYYY")
                             if UserAuth.objects.filter(user=userByNameAndEmail[0], manual_user=False).exists():
                                 user = authenticate(username=google['email'], password="google_auth")
                                 if user is not None:
